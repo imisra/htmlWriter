@@ -1,0 +1,25 @@
+#+title: htmlWriter
+#+author: Ishan Misra
+#+date: Dec, 2013
+
+License: Free
+Warranty: None, use at your own risk. No implied warranty for fitness, usability, merchantibility etc.
+
+This is is a very basic library to view your results in HTML tables.
+
+* Setup
+If you want to create tables whose columns can be sorted by clicking the "header", you can use sortable.js (not my js code).
+I have included this .js file because it is immensely helpful. However, you need to change the path of the sortable.js in the createHtml.m and createPagedHtml.m files. Make sure this is an absolute path. 
+
+* Usage
+Your HTML tables may contain columns with any data. If the data is numeric, then sortable.js helps you sort that column.
+If you want a table of images (like people in computer vision do at times), then just use makeImageLink(). It supports alt-text and image borders. You can also create images than change on mouse-rollovers using makeImageLinkHover().
+You can also create tables that span multiple HTML pages. This is useful is you wanted to display 10,000 images and your browser would cringe to load all of them at once. The createPagedHtml() and writePagedHtml() functions support this.
+
+** Caveats
+If you use relative paths, then make sure that the path to any data your HTML references (like images) is wrt the HTML file location.
+
+* Demo
+Have a look at the demo**.m files to get a basic idea of how things work.
+
+Finally, this library was made in a hurry with the least brain consumption. You have been warned.
