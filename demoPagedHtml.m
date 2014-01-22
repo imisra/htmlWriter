@@ -4,7 +4,7 @@ params.pageLinkBreaks = 3;
 
 
 
-h = createPagedHtml('testing.html',params);
+h = createPagedHtml('testing.html',params); %overwrites existing files by default
 [h,t] = createTable(h);
 
 row{1}='<b>image name</b>';
@@ -14,8 +14,8 @@ row{3}='<b>output</b>';
 [h,t] = addHeader(h,t,row);
 for i=1:8
 row = {};
-row{1}=['peppers.png' num2str(i)];
-row{2}='see the image ?';
+row{1}=['rowData' num2str(i)];
+row{2}='some data';
 row{3}='awesome detections';
 
 [h,t] = addRow(h,t,row);
