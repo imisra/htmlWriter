@@ -5,7 +5,7 @@ function [htmlobj,tblId] = writePagedTable(htmlobj,tblId)
 
 
 %first determine the number of html pages we will create
-numPages = round(htmlobj.tblInfo{tblId}.numRows/htmlobj.numPerPage);
+numPages = ceil(htmlobj.tblInfo{tblId}.numRows/htmlobj.numPerPage);
 
 for ff=1:numPages
 
