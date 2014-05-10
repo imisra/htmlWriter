@@ -30,6 +30,7 @@ htmlobj.tblInfo{tblId}.numRows = 0;
 htmlobj.tblInfo{tblId}.headerFlushed = 0;
 htmlobj.tblInfo{tblId}.thFlush = 0;
 htmlobj.tblInfo{tblId}.partWrite = 0;
+htmlobj.tblInfo{tblId}.pageBreak = [];
 htmlobj.tblInfo{tblId}.rowData = {};
 
 
