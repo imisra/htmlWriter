@@ -24,6 +24,7 @@ for i=1:numRows
     end
 end
 rowBreaks = [rowBreaks numRows];
+rowBreaks = unique(rowBreaks);
 
 numPages = length(rowBreaks)-2+1;
 
