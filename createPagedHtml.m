@@ -20,7 +20,7 @@ end
     htmlobj.pagedTable = true;
     htmlobj.numPerPage = params.numPerPage;
     htmlobj.pageLinkBreaks = params.pageLinkBreaks;
-    htmlobj.lockfh = fopen([fname '.lock'],'w');
+    htmlobj.lockfh = fopen([fname '.lock'],'w');    
     htmlobj.fname = fname;
     htmlobj.lockfname = [fname '.lock'];
     htmlobj.startTime = now;
@@ -49,6 +49,6 @@ end
 
     end
     htmlobj.htmlHeaders = [htmlobj.htmlHeaders ...
-        sprintf('html file %s. started at %s<br/>\n',htmlobj.fname,datestr(htmlobj.startTime))];
+        sprintf('html file %s. started at %s<br/>\n',windowsPathEscape(htmlobj.fname),datestr(htmlobj.startTime))];
  
 end

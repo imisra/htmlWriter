@@ -2,6 +2,9 @@
 %Date: Dec, 2013
 
 function linkStr = makeImageLink(imgPath,width,height,altText,borderString)
+
+imgPath = windowsPathEscape(imgPath);
+
 if(~exist('altText','var'))
     linkStr=sprintf('<a href="%s"><img src="%s" width=%d height=%d /></a>',imgPath,imgPath,width,height);
 else

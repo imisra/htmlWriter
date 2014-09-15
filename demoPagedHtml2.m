@@ -29,3 +29,4 @@ for i=1:8
 end
 [h,t] = writeTable(h,t);
 h = endHtml(h);
+%navigate between pages using arrow keys

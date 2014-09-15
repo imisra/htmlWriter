@@ -22,3 +22,5 @@ row{3}='awesome detections';
 end
 [h,t] = writeTable(h,t);
 h = endHtml(h);
+
+%navigate between pages using arrow keys

@@ -28,6 +28,28 @@ rowBreaks = unique(rowBreaks);
 
 numPages = length(rowBreaks)-2+1;
 
+jsMain = ['document.onkeydown = function(evt) {\n' ...
+    'evt = evt || window.event;\n'...
+    'switch (evt.keyCode) {\n'...
+    '    case 37:\n'...
+    '        leftArrowPress();\n'...
+    '        break;\n'...
+    '    case 39:\n'...
+    '        rightArrowPress();\n'...
+    '        break;\n'...
+    '}\n'...
+    '};\n'];
+	
+
+jsImAspResize = ['function myImgAspResize(ele,maxWidth,maxHeight) {\n' ...
+'var srcWidth = ele.naturalWidth;\n' ...
+'var srcHeight = ele.naturalHeight;\n' ...
+'var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);\n' ...	
+'ele.width = srcWidth*ratio;\n' ...
+'ele.height = srcHeight*ratio;\n}\n'];
+
+[~,baseName,~] = fileparts(htmlobj.baseName);
+
 for ff=1:numPages
     
     %create the file
@@ -38,24 +60,47 @@ for ff=1:numPages
     end
     htmlobj.fh = fopen(htmlFileName,'w');
     fprintf(htmlobj.fh,htmlobj.htmlHeaders);
+    fprintf(htmlobj.fh,'<script type="text/javascript">\n');
+    if(numPages<1000)
+        chForm = '%03d';
+    else
+        chForm = '%06d';
+    end
+    prevPg = [baseName sprintf(chForm,ff-1) '.html'];
+    nextPg = [baseName sprintf(chForm,ff+1) '.html'];    
+    if(ff==1)
+        prevPg = [baseName sprintf(chForm,1) '.html'];
+    end
+    if(ff==numPages)
+        nextPg = [baseName sprintf(chForm,ff) '.html'];
+    end    
+    jsLeftArr = [sprintf('function leftArrowPress(){\n') ...
+                 sprintf('window.location=''%s'';\n}',prevPg)];
+    jsRightArr = [sprintf('function rightArrowPress(){\n') ...
+                 sprintf('window.location=''%s'';\n}',nextPg)];             
+    fprintf(htmlobj.fh,'%s\n %s\n',jsLeftArr,jsRightArr);
+    fprintf(htmlobj.fh,jsMain);
+	fprintf(htmlobj.fh,jsImAspResize);
+    fprintf(htmlobj.fh,'\n</script>\n');
+    
     
     fprintf(htmlobj.fh,'\n');
     %now page links
     for ii=1:numPages
-        if(numPages<1000)
-            tmpFileName = sprintf('%s%03d.html',htmlobj.baseName,ii);
-        else
-            tmpFileName = sprintf('%s%06d.html',htmlobj.baseName,ii);
-        end
-        [~,tmpBase,ext] = fileparts(tmpFileName);
-        if(ii~=ff)
-            fprintf(htmlobj.fh,'<a href="%s">%d</a>&nbsp;',[tmpBase ext],ii);
-        else
-            fprintf(htmlobj.fh,'<a href="%s"><font color="green"> %d </font></a>&nbsp;',[tmpBase ext],ii);
-        end
-        if(mod(ii,htmlobj.pageLinkBreaks)==0)
-            fprintf(htmlobj.fh,'<br/>');
-        end
+    if(numPages<1000)
+        tmpFileName = sprintf('%s%03d.html',htmlobj.baseName,ii);
+    else
+        tmpFileName = sprintf('%s%06d.html',htmlobj.baseName,ii);
+    end
+    [~,tmpBase,ext] = fileparts(tmpFileName);
+    if(ii~=ff)
+        fprintf(htmlobj.fh,'<a href="%s">%d</a>&nbsp;',[tmpBase ext],ii);
+    else
+        fprintf(htmlobj.fh,'<a href="%s"><font color="green"> %d </font></a>&nbsp;',[tmpBase ext],ii);
+    end
+    if(mod(ii,htmlobj.pageLinkBreaks)==0)
+        fprintf(htmlobj.fh,'<br/>');
+    end
     end
     fprintf(htmlobj.fh,'<br/>\n');
     %write header
@@ -89,7 +134,7 @@ for ff=1:numPages
             rowstr = sprintf('%s <td>%s</td>',rowstr,htmlobj.tblInfo{tblId}.rowData{i}{j});
         end
         fprintf(htmlobj.fh,'<tr>\n');
-        fprintf(htmlobj.fh,rowstr);
+        fprintf(htmlobj.fh,'%s',rowstr);
         fprintf(htmlobj.fh,'</tr>\n');
     end
     
@@ -118,7 +163,7 @@ for ff=1:numPages
     end
     
     fprintf(htmlobj.fh,...
-        sprintf('\n<br/>html file %s. ended at %s<br/>\n</html>',htmlobj.fname,datestr(htmlobj.endTime)));
+        sprintf('\n<br/>html file %s. ended at %s<br/>\n</html>',windowsPathEscape(htmlobj.fname),datestr(htmlobj.endTime)));
     fclose(htmlobj.fh);
     
 end

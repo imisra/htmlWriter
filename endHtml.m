@@ -9,7 +9,7 @@ end
 
 htmlobj.endTime = now;
 fprintf(htmlobj.fh,...
-        sprintf('\n<br/>html file %s. ended at %s<br/>\n</html>',htmlobj.fname,datestr(htmlobj.endTime)));
+        sprintf('\n<br/>html file %s. ended at %s<br/>\n</html>',windowsPathEscape(htmlobj.fname),datestr(htmlobj.endTime)));
 
 try    
 fclose(htmlobj.fh);
