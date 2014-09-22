@@ -167,6 +167,4 @@ for ff=1:numPages
     fclose(htmlobj.fh);
     
 end
-fclose(htmlobj.lockfh);
-delete(htmlobj.lockfname);
 end
